@@ -11,7 +11,17 @@ FunkParams.Radii= linspace(FunkParams.OuterRadius - FunkParams.ImageMaxRadius,..
                    FunkParams.OuterRadius + FunkParams.ImageMaxRadius,NRadii);
 FunkParams.Inc= sqrt(2)*FunkParams.ImageMaxRadius/FunkParams.PixelsXY;
 A = FunkMakeA(FunkParams);
+close all
 figure,spy(A);
 for i=[70, 170,280,320]
     figure, imagesc(reshape(A(i,:),20,20));
 end
+ss=svd(full(A));
+figure, plot(ss(1:end-3))
+figure, semilogy(ss(1:end-3));
+xx=sparse(400,1);
+xx(250)=1;
+bb = A*xx;
+figure, imagesc(reshape(A\bb,20,20));
+figure, imagesc(reshape(A\(bb+ 0.05*randn(size(bb))),20,20));
+
